@@ -3,13 +3,23 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: Playfair Display;
 }
+
+/* .main {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+} */
 
 h1 {
   position: relative;
   display: inline-block;
   font-size: 3rem;
-  padding-right: 50px; /* Adjust as needed to make space for the dollar bill */
+}
+
+.instruction-p {
+  font-size: medium;
 }
 
 .dollar-bill {
@@ -19,7 +29,17 @@ h1 {
   width: 60px; /* Adjust size as needed */
   opacity: 0;
   transform: translateX(50px) rotate(-20deg);
-  animation: pop-out 1s ease-out forwards, float-down 3s 1s ease-in infinite;
+  animation: pop-out 1s ease-out forwards, float-down 4s 1s ease-in infinite;
+}
+
+.dollar-bill:nth-of-type(1) {
+  animation-delay: 0s;
+}
+.dollar-bill:nth-of-type(2) {
+  animation-delay: 0.5s;
+}
+.dollar-bill:nth-of-type(3) {
+  animation-delay: 1s;
 }
 
 @keyframes pop-out {

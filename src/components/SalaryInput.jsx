@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+// eslint-disable-next-line react/prop-types
 function SalaryInput({ setHourlyWage }) {
     
 
@@ -10,7 +11,7 @@ function SalaryInput({ setHourlyWage }) {
   return (
     <>
     <div className='salary-input'>
-      <label htmlFor='wage'>Hourly Wage</label>
+      <label htmlFor='wage'>Hourly Wage </label>
         <input 
         type='number'
         id='wage'
