@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+// functional component for displaying the earnings
 
 function EarningCounter({ hourlyWage }) {
     const [earnings, setEarnings] = useState(0);

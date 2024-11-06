@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+
+//functional component for displaying the input 
 // eslint-disable-next-line react/prop-types
 function SalaryInput({ setHourlyWage }) {
     

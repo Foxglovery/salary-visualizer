@@ -69,3 +69,22 @@ h1 {
     transform: translateY(50px) rotate(20deg);
   }
 }
+
+/* Media query for tablets (less than 768px wide) */
+@media (max-width: 768px) {
+  #root {
+    padding: 4rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .instruction-p {
+    font-size: small;
+  }
+
+  .dollar-bill {
+    width: 50px;
+  }
+}
