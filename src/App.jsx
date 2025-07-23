@@ -4,6 +4,7 @@ import dollarBill from './assets/10-dollar.png'
 import SalaryInput from './components/SalaryInput'
 import EarningCounter from './components/EarningCounter'
 import SupernovaParticles from './components/SupernovaParticles';
+import Sidebar from './components/Sidebar';
 // import hourlyWage from '../src/components/SalaryInput' // This import is not needed
 
 const ELEMENT_COLORS = {
@@ -29,37 +30,40 @@ function App() {
   return (
     <>
       <SupernovaParticles element={element} trigger={supernovaTrigger} />
-      <div className='main' style={{ color: textColor }}>
-        <h1>Salary Visualizer</h1>
-        <div>
-          <p className='instruction-p'>
-            Enter your hourly wage to visualize how the trickle of time equates to your wallet
-          </p>
+      <div className='app-layout'>
+        <Sidebar />
+        <div className='main' style={{ color: textColor }}>
+          <h1>Salary Visualizer</h1>
+          <div>
+            <p className='instruction-p'>
+              Enter your hourly wage to visualize how the trickle of time equates to your wallet
+            </p>
+          </div>
+          <div className='element-picker'>
+            <span>Pick an element: </span>
+            {Object.keys(ELEMENT_COLORS).map((el) => (
+              <button
+                key={el}
+                onClick={() => handleElementChange(el)}
+                style={{
+                  backgroundColor: element === el ? ELEMENT_COLORS[el] : '#1a1a1a',
+                  color: element === el ? '#fff' : '#ccc',
+                  margin: '0 0.5em',
+                  border: element === el ? '2px solid #fff' : '1px solid #444',
+                  fontWeight: element === el ? 'bold' : 'normal',
+                  transition: 'all 0.2s',
+                }}
+              >
+                {el}
+              </button>
+            ))}
+          </div>
+          <SalaryInput setHourlyWage={setHourlyWage} />
+          <EarningCounter hourlyWage={hourlyWage} />
+          <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
+          <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
+          <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
         </div>
-        <div className='element-picker'>
-          <span>Pick an element: </span>
-          {Object.keys(ELEMENT_COLORS).map((el) => (
-            <button
-              key={el}
-              onClick={() => handleElementChange(el)}
-              style={{
-                backgroundColor: element === el ? ELEMENT_COLORS[el] : '#1a1a1a',
-                color: element === el ? '#fff' : '#ccc',
-                margin: '0 0.5em',
-                border: element === el ? '2px solid #fff' : '1px solid #444',
-                fontWeight: element === el ? 'bold' : 'normal',
-                transition: 'all 0.2s',
-              }}
-            >
-              {el}
-            </button>
-          ))}
-        </div>
-        <SalaryInput setHourlyWage={setHourlyWage} />
-        <EarningCounter hourlyWage={hourlyWage} />
-        <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
-        <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
-        <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
       </div>
     </>
   )
