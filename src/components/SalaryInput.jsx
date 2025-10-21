@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 
 
 //functional component for displaying the input 
