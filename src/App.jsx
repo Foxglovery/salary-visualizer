@@ -5,6 +5,7 @@ import SalaryInput from './components/SalaryInput'
 import EarningCounter from './components/EarningCounter'
 import SupernovaParticles from './components/SupernovaParticles';
 import Sidebar from './components/Sidebar';
+import MoonChorePlanner from './components/MoonPhases'
 // import hourlyWage from '../src/components/SalaryInput' // This import is not needed
 
 const ELEMENT_COLORS = {
@@ -64,6 +65,7 @@ function App() {
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
         </div>
+        <MoonChorePlanner />
       </div>
     </>
   )
