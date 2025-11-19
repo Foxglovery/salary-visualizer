@@ -1,4 +1,4 @@
-import React from 'react';
+import AtlasCountdown from './AtlasCountdown';
 
 export default function Sidebar() {
   return (
@@ -14,6 +14,11 @@ export default function Sidebar() {
       <div className="sidebar-info">
         <p>Salary Visualizer helps you see your earnings in real time!</p>
       </div>
+
+      {/* Add Atlas countdown for 3I Atlas closest approach */}
+      <div style={{ marginTop: '1rem' }}>
+        <AtlasCountdown />
+      </div>
     </aside>
   );
-} 
+}
