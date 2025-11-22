@@ -125,6 +125,32 @@ function getMoonPhaseIndex(date) {
   return phaseIndex; // 0=new, 4=full, etc.
 }
 
+// Return illuminated fraction 0..1 (0=new moon, 1=full moon)
+function getMoonIllumination(date) {
+  let year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  const day = date.getDate() + (date.getHours() / 24) + (date.getMinutes() / 1440) + (date.getSeconds() / 86400);
+
+  if (month < 3) {
+    year -= 1;
+    month += 12;
+  }
+
+  month += 1;
+
+  const c = Math.floor(365.25 * year);
+  const e = Math.floor(30.6 * month);
+  let jd = c + e + day - 694039.09; // days since known new moon
+  jd /= 29.5305882; // length of synodic month
+  const b = Math.floor(jd);
+  const frac = jd - b; // fractional lunation 0..1
+
+  // illumination approximated by (1 - cos(phaseAngle)) / 2
+  const phaseAngle = frac * 2 * Math.PI; // 0..2π
+  const illum = (1 - Math.cos(phaseAngle)) / 2;
+  return illum; // 0 (new) .. 1 (full)
+}
+
 export default function MoonChorePlanner() {
   const [dateString, setDateString] = useState(() => {
     const today = new Date();
@@ -135,14 +161,17 @@ export default function MoonChorePlanner() {
     return `${yyyy}-${mm}-${dd}`;
   });
 
-  const { phase, chores } = useMemo(() => {
+  const { phase, chores, illumination } = useMemo(() => {
     const [year, month, day] = dateString.split("-").map(Number);
     const date = new Date(year, month - 1, day);
     const phaseIndex = getMoonPhaseIndex(date);
     const phaseInfo = MOON_PHASES.find(p => p.key === phaseIndex) ?? MOON_PHASES[0];
+    // compute illumination/brightness for this date
+    const illumination = getMoonIllumination(date);
     return {
       phase: phaseInfo,
-      chores: phaseInfo.chores
+      chores: phaseInfo.chores,
+      illumination
     };
   }, [dateString]);
 
@@ -186,8 +215,11 @@ export default function MoonChorePlanner() {
           marginTop: "1.5rem",
           padding: "1rem",
           borderRadius: "0.9rem",
-          background: "rgba(0,0,0,0.4)",
-          border: "1px solid rgba(255,255,255,0.1)"
+          // background slightly brighter when moon is fuller
+          background: `rgba(0,0,0,${0.32 + (illumination ?? 0) * 0.12})`,
+          border: "1px solid rgba(255,255,255,0.1)",
+          // glow intensity scales with illumination (full moon => stronger glow)
+          boxShadow: `0 8px ${8 + (illumination ?? 0) * 40}px rgba(255,240,200,${0.06 + (illumination ?? 0) * 0.28})`
         }}
       >
         <h2 style={{ margin: 0, fontSize: "1.3rem" }}>
