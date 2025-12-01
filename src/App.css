@@ -472,8 +472,8 @@ h1::after {
 .moon-arc {
   position: relative;
   width: min(820px, 100%);
-  margin: 1.6rem auto 1.2rem;
-  aspect-ratio: 2 / 1.1;
+  margin: 1.8rem auto 1.4rem;
+  aspect-ratio: 2.1 / 1.05;
   background: radial-gradient(70% 120% at 50% 90%, rgba(61, 55, 72, 0.6), rgba(12, 9, 16, 0.85)),
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
   border: 1px solid #2b2633;
@@ -501,10 +501,16 @@ h1::after {
 }
 .phase-node {
   position: absolute;
-  width: 120px;
+  width: 96px;
   transform: translate(-50%, -50%);
   text-align: center;
   color: #e8e3d7;
+}
+.phase-node__label {
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: rgba(232, 227, 215, 0.72);
 }
 .phase-node__disk {
   position: relative;

@@ -32,8 +32,8 @@ function App() {
     <>
       <SupernovaParticles element={element} trigger={supernovaTrigger} />
       <div className='app-layout'>
-        <Sidebar />
-        <div className='main' style={{ color: textColor }}>
+        {/* <Sidebar /> */}
+        {/* <div className='main' style={{ color: textColor }}>
           <h1>Salary Visualizer</h1>
           <div>
             <p className='instruction-p'>
@@ -59,12 +59,12 @@ function App() {
               </button>
             ))}
           </div>
-          {/* <SalaryInput setHourlyWage={setHourlyWage} />
-          <EarningCounter hourlyWage={hourlyWage} /> */}
+          <SalaryInput setHourlyWage={setHourlyWage} />
+          <EarningCounter hourlyWage={hourlyWage} />
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
-        </div>
+        </div> */}
         <MoonChorePlanner />
       </div>
     </>

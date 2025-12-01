@@ -164,14 +164,15 @@ function getMoonIllumination(date) {
 }
 
 const ARC_POSITIONS = (() => {
-  const radius = 42; // percentage of container width
-  const verticalCenter = 70; // percentage from top
+  const radiusX = 48; // horizontal spread (percent of container width)
+  const radiusY = 38; // vertical spread
+  const verticalCenter = 80; // percentage from top
   return MOON_PHASES.map((phase, idx) => {
     const t = idx / (MOON_PHASES.length - 1);
     const angleDeg = 180 - t * 180; // left to right along top arc
     const angleRad = (angleDeg * Math.PI) / 180;
-    const xPerc = 50 + radius * Math.cos(angleRad);
-    const yPerc = verticalCenter - radius * Math.sin(angleRad);
+    const xPerc = 50 + radiusX * Math.cos(angleRad);
+    const yPerc = verticalCenter - radiusY * Math.sin(angleRad);
     return { ...phase, xPerc, yPerc };
   });
 })();
