@@ -406,6 +406,268 @@ h1::after {
   box-shadow: var(--shadow);
 }
 
+/* ===== MOON PANEL (witchy arc) ===== */
+.moon-panel {
+  position: relative;
+  margin: 2.5rem auto;
+  padding: 1.8rem 1.6rem 2.2rem;
+  max-width: 980px;
+  color: #f5f1e8;
+  background: radial-gradient(120% 140% at 50% 0%, rgba(87, 71, 109, 0.28), rgba(16, 14, 25, 0.9)),
+    linear-gradient(145deg, #0c0a13, #151424 45%, #0a0a12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 24px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.moon-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.02) 0 6px, transparent 6px 12px);
+  mix-blend-mode: soft-light;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.moon-panel__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.moon-panel__title {
+  margin: 0.15rem 0 0;
+  font-size: 1.9rem;
+  letter-spacing: 1px;
+}
+.moon-panel__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-size: 0.7rem;
+  color: rgba(245, 241, 232, 0.6);
+}
+.moon-panel__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  font-size: 0.95rem;
+}
+.moon-panel__date input {
+  appearance: none;
+  background: #0f0d17;
+  color: #f0eadf;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.moon-arc {
+  position: relative;
+  width: min(820px, 100%);
+  margin: 1.6rem auto 1.2rem;
+  aspect-ratio: 2 / 1.1;
+  background: radial-gradient(70% 120% at 50% 90%, rgba(61, 55, 72, 0.6), rgba(12, 9, 16, 0.85)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border: 1px solid #2b2633;
+  border-radius: 42% 42% 48% 48%;
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.05), inset 0 -14px 30px rgba(0, 0, 0, 0.55),
+    0 0 120px rgba(18, 12, 25, 0.8);
+  overflow: hidden;
+}
+.moon-arc__band {
+  position: absolute;
+  inset: 14% 6% auto 6%;
+  height: 52%;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+  border-radius: 50% 50% 44% 44%;
+  box-shadow: inset 0 12px 24px rgba(0, 0, 0, 0.4);
+  filter: blur(0.4px);
+}
+.moon-arc__halo {
+  position: absolute;
+  inset: 26% 22% 8% 22%;
+  background: radial-gradient(ellipse at 50% 55%, rgba(240, 222, 168, 0.26), transparent 55%);
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.phase-node {
+  position: absolute;
+  width: 120px;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #e8e3d7;
+}
+.phase-node__disk {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #5b5a61 0%, #35323e 65%, #15131c 90%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.06), inset 0 -6px 12px rgba(0, 0, 0, 0.6),
+    0 10px 26px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+  isolation: isolate;
+}
+.phase-node__disk::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 32%, #f6f0d8 0%, #cdc7ae 55%, #8c8468 82%);
+  filter: drop-shadow(0 0 12px rgba(255, 232, 170, 0.35));
+}
+.phase-node__disk::after {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at calc(50% + var(--cut-shift, 0%)) 50%,
+    #0a0c12 52%,
+    rgba(10, 12, 18, 0.85) 60%,
+    transparent 62%
+  );
+  opacity: var(--cut-opacity, 0.78);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.65);
+}
+.phase-node__glow {
+  position: absolute;
+  inset: -35%;
+  background: radial-gradient(circle at 50% 50%, rgba(240, 216, 150, 0.32), transparent 55%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.phase-node__label {
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: rgba(232, 227, 215, 0.72);
+}
+.phase-node.is-active .phase-node__disk {
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.08), inset 0 -6px 12px rgba(0, 0, 0, 0.6),
+    0 0 28px rgba(240, 216, 150, 0.55), 0 0 90px rgba(240, 216, 150, 0.35);
+}
+.phase-node.is-active .phase-node__glow {
+  opacity: 1;
+}
+
+.phase-node__disk.new {
+  --cut-opacity: 0.95;
+  --cut-shift: 0%;
+  filter: grayscale(0.35);
+}
+.phase-node__disk.waxing-crescent {
+  --cut-opacity: 0.8;
+  --cut-shift: -14%;
+}
+.phase-node__disk.first-quarter {
+  --cut-opacity: 0.75;
+  --cut-shift: -38%;
+}
+.phase-node__disk.waxing-gibbous {
+  --cut-opacity: 0.6;
+  --cut-shift: -75%;
+}
+.phase-node__disk.full {
+  --cut-opacity: 0.15;
+  --cut-shift: 120%;
+}
+.phase-node__disk.waning-gibbous {
+  --cut-opacity: 0.6;
+  --cut-shift: 75%;
+}
+.phase-node__disk.last-quarter {
+  --cut-opacity: 0.75;
+  --cut-shift: 38%;
+}
+.phase-node__disk.waning-crescent {
+  --cut-opacity: 0.8;
+  --cut-shift: 14%;
+}
+
+.moon-phase-card {
+  position: relative;
+  margin-top: 1.1rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 1.1rem 1rem 1.3rem;
+  backdrop-filter: blur(6px);
+}
+.moon-phase-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.moon-phase-card__title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.moon-phase-card__glyph {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(240, 216, 150, 0.14), rgba(240, 216, 150, 0.04));
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(245, 241, 232, 0.9);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.06);
+}
+.moon-phase-card__eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.7rem;
+  color: rgba(245, 241, 232, 0.65);
+}
+.moon-phase-card__vibe {
+  margin: 0.25rem 0 0;
+  color: rgba(245, 241, 232, 0.78);
+  font-size: 0.95rem;
+  max-width: 280px;
+  text-align: right;
+}
+.moon-phase-card__list {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+.moon-phase-card__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.55rem;
+  align-items: baseline;
+  padding: 0.55rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.moon-phase-card__bullet {
+  color: rgba(240, 216, 150, 0.9);
+  text-shadow: 0 0 12px rgba(240, 216, 150, 0.35);
+}
+.moon-panel__footnote {
+  margin: 1rem 0 0;
+  color: rgba(245, 241, 232, 0.55);
+  font-size: 0.85rem;
+}
+
 /* ===== MEDIA QUERIES ===== */
 @media (max-width: 900px) {
   .app-layout {
@@ -424,6 +686,23 @@ h1::after {
     align-items: center;
     text-align: center;
   }
+  .moon-panel {
+    padding: 1.4rem 1rem 1.8rem;
+  }
+  .moon-panel__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .moon-panel__date {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .moon-phase-card__header {
+    flex-direction: column;
+  }
+  .moon-phase-card__vibe {
+    text-align: left;
+  }
 }
 
 @media (max-width: 768px) {
@@ -438,6 +717,12 @@ h1::after {
   }
   .dollar-bill {
     width: 52px;
+  }
+  .moon-arc {
+    aspect-ratio: 1.7 / 1;
+  }
+  .phase-node {
+    width: 100px;
   }
 }
 

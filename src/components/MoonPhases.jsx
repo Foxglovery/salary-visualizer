@@ -1,15 +1,16 @@
-import  { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const MOON_PHASES = [
   {
     key: 0,
     name: "New Moon",
     vibe: "Reset, rest, intention-setting",
+    phaseClass: "new",
     chores: [
       "Do light, low-effort tidying (clear one surface, not the whole house)",
       "Clean and reset your altar or a special shelf",
       "Journal goals or to-do lists for the next two weeks",
-      "Sort seed packets, plan garden beds, but don’t plant yet",
+      "Sort seed packets, plan garden beds, but don't plant yet",
       "Declutter digital stuff: delete 10 old photos or emails"
     ]
   },
@@ -17,10 +18,11 @@ const MOON_PHASES = [
     key: 1,
     name: "Waxing Crescent",
     vibe: "Plant the seeds, start small",
+    phaseClass: "waxing-crescent",
     chores: [
       "Start small projects: one drawer, one cabinet, one bed in the garden",
       "Start seeds indoors or plan where transplants will go",
-      "Do quick 10–15 minute cleaning bursts in different rooms",
+      "Do quick 10-15 minute cleaning bursts in different rooms",
       "Wash and prep containers/pots for upcoming plantings",
       "Begin tracking a new habit (sleep, water, cleaning, etc.)"
     ]
@@ -29,8 +31,9 @@ const MOON_PHASES = [
     key: 2,
     name: "First Quarter",
     vibe: "Action, push through resistance",
+    phaseClass: "first-quarter",
     chores: [
-      "Tackle medium-sized chores you’ve been avoiding (bathroom, fridge, car)",
+      "Tackle medium-sized chores you've been avoiding (bathroom, fridge, car)",
       "Do structural garden work: staking, trellises, bed edging",
       "Sort and label storage bins, jars, or pantry containers",
       "Handle necessary but annoying admin: bills, calls, scheduling",
@@ -41,11 +44,12 @@ const MOON_PHASES = [
     key: 3,
     name: "Waxing Gibbous",
     vibe: "Refine, improve, prepare",
+    phaseClass: "waxing-gibbous",
     chores: [
       "Fine-tune spaces you already cleaned (organize, pretty it up)",
       "Thin seedlings, prune lightly, or adjust plant spacing",
       "Batch prep ingredients or freezer meals for future you",
-      "Label everything you’ve been saying you’ll label for weeks",
+      "Label everything you've been saying you'll label for weeks",
       "Do maintenance: sharpen tools, oil cutting boards, fix squeaky doors"
     ]
   },
@@ -53,42 +57,46 @@ const MOON_PHASES = [
     key: 4,
     name: "Full Moon",
     vibe: "Peak energy, showcase & cleanse",
+    phaseClass: "full",
     chores: [
-      "Do a big “showtime” clean of main living areas",
+      "Do a big 'showtime' clean of main living areas",
       "Wash bedding, blankets, and anything cozy",
       "Sweep and energetically cleanse floors/thresholds",
       "Show off your space: take photos, host a little hang, or just enjoy it",
-      "Moon-gaze with tea and actually admire what you’ve done"
+      "Moon-gaze with tea and actually admire what you've done"
     ]
   },
   {
     key: 5,
     name: "Waning Gibbous",
     vibe: "Gratitude, sharing, adjusting",
+    phaseClass: "waning-gibbous",
     chores: [
-      "Declutter gently: donate or re-home items you don’t use",
+      "Declutter gently: donate or re-home items you don't use",
       "Harvest and share herbs/produce, or prep them for drying",
       "Clean out the pantry of stale/expired things",
       "Write labels, notes, or logs for what worked well this cycle",
-      "Do laundry that’s been lurking in baskets or corners"
+      "Do laundry that's been lurking in baskets or corners"
     ]
   },
   {
     key: 6,
     name: "Last Quarter",
     vibe: "Release, cut away, tough love",
+    phaseClass: "last-quarter",
     chores: [
       "Do a ruthless declutter of one category (mugs, t-shirts, etc.)",
       "Prune plants more firmly, remove diseased/dead growth",
       "Unsubscribe from junk emails and silence annoying notifications",
       "Take out trash and recycling from every room",
-      "Deal with that one “doom pile” of papers or random stuff"
+      "Deal with that one 'doom pile' of papers or random stuff"
     ]
   },
   {
     key: 7,
     name: "Waning Crescent",
     vibe: "Rest, reset, compost the old",
+    phaseClass: "waning-crescent",
     chores: [
       "Soft reset: gentle tidy, nothing heroic",
       "Compost kitchen scraps, dead plants, or old intentions",
@@ -99,10 +107,10 @@ const MOON_PHASES = [
   }
 ];
 
-// Conway-style moon phase approximation: returns 0–7
+// Conway-style moon phase approximation: returns 0-7
 function getMoonPhaseIndex(date) {
   let year = date.getFullYear();
-  let month = date.getMonth() + 1; // JS months 0–11 → 1–12
+  let month = date.getMonth() + 1; // JS months 0-11 + 1-12
   const day = date.getDate();
 
   if (month < 3) {
@@ -129,7 +137,11 @@ function getMoonPhaseIndex(date) {
 function getMoonIllumination(date) {
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
-  const day = date.getDate() + (date.getHours() / 24) + (date.getMinutes() / 1440) + (date.getSeconds() / 86400);
+  const day =
+    date.getDate() +
+    date.getHours() / 24 +
+    date.getMinutes() / 1440 +
+    date.getSeconds() / 86400;
 
   if (month < 3) {
     year -= 1;
@@ -151,115 +163,117 @@ function getMoonIllumination(date) {
   return illum; // 0 (new) .. 1 (full)
 }
 
+const ARC_POSITIONS = (() => {
+  const radius = 42; // percentage of container width
+  const verticalCenter = 70; // percentage from top
+  return MOON_PHASES.map((phase, idx) => {
+    const t = idx / (MOON_PHASES.length - 1);
+    const angleDeg = 180 - t * 180; // left to right along top arc
+    const angleRad = (angleDeg * Math.PI) / 180;
+    const xPerc = 50 + radius * Math.cos(angleRad);
+    const yPerc = verticalCenter - radius * Math.sin(angleRad);
+    return { ...phase, xPerc, yPerc };
+  });
+})();
+
 export default function MoonChorePlanner() {
   const [dateString, setDateString] = useState(() => {
     const today = new Date();
-    // format yyyy-mm-dd for <input type="date">
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, "0");
     const dd = String(today.getDate()).padStart(2, "0");
     return `${yyyy}-${mm}-${dd}`;
   });
 
-  const { phase, chores, illumination } = useMemo(() => {
+  const { phase, chores, illumination, phaseIndex } = useMemo(() => {
     const [year, month, day] = dateString.split("-").map(Number);
     const date = new Date(year, month - 1, day);
-    const phaseIndex = getMoonPhaseIndex(date);
-    const phaseInfo = MOON_PHASES.find(p => p.key === phaseIndex) ?? MOON_PHASES[0];
-    // compute illumination/brightness for this date
-    const illumination = getMoonIllumination(date);
+    const currentPhaseIndex = getMoonPhaseIndex(date);
+    const phaseInfo = MOON_PHASES.find((p) => p.key === currentPhaseIndex) ?? MOON_PHASES[0];
+    const illum = getMoonIllumination(date);
     return {
       phase: phaseInfo,
       chores: phaseInfo.chores,
-      illumination
+      illumination: illum,
+      phaseIndex: currentPhaseIndex
     };
   }, [dateString]);
 
   return (
-    <div
-      style={{
-        maxWidth: "600px",
-        margin: "2rem auto",
-        padding: "1.5rem",
-        borderRadius: "1rem",
-        border: "1px solid rgba(255,255,255,0.15)",
-        background: "radial-gradient(circle at top, #1b1e2b, #050608)",
-        color: "#f5f5f5",
-        fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
-        boxShadow: "0 18px 40px rgba(0,0,0,0.6)"
-      }}
-    >
-      <h1 style={{ fontSize: "1.6rem", marginBottom: "0.75rem" }}>
-        Moon Chore Planner
-      </h1>
+    <section className="moon-panel">
+      <div className="moon-panel__header">
+        <div>
+          <p className="moon-panel__eyebrow">Arcane horary // domestic augury</p>
+          <h2 className="moon-panel__title">Moon Phase Tracker</h2>
+        </div>
+        <label className="moon-panel__date">
+          <span>Inscribed night:</span>
+          <input
+            type="date"
+            value={dateString}
+            onChange={(e) => setDateString(e.target.value)}
+          />
+        </label>
+      </div>
 
-      <label style={{ fontSize: "0.9rem", opacity: 0.9 }}>
-        Choose a date:
-        <input
-          type="date"
-          value={dateString}
-          onChange={(e) => setDateString(e.target.value)}
+      <div className="moon-arc">
+        <div
+          className="moon-arc__halo"
           style={{
-            marginLeft: "0.5rem",
-            padding: "0.25rem 0.5rem",
-            borderRadius: "0.4rem",
-            border: "1px solid rgba(255,255,255,0.3)",
-            background: "rgba(0,0,0,0.2)",
-            color: "#f5f5f5"
+            opacity: 0.55 + (illumination ?? 0) * 0.25,
+            boxShadow: `0 0 120px 50px rgba(240, 220, 170, ${0.08 + (illumination ?? 0) * 0.35})`
           }}
         />
-      </label>
+        <div className="moon-arc__band" />
+        {ARC_POSITIONS.map((p) => (
+          <div
+            key={p.key}
+            className={`phase-node ${phaseIndex === p.key ? "is-active" : ""}`}
+            style={{ left: `${p.xPerc}%`, top: `${p.yPerc}%` }}
+            aria-label={`${p.name} phase`}
+          >
+            <div className={`phase-node__disk ${p.phaseClass}`}>
+              <span className="phase-node__glow" />
+            </div>
+            <div className="phase-node__label">{p.name}</div>
+          </div>
+        ))}
+      </div>
 
       <div
+        className="moon-phase-card"
         style={{
-          marginTop: "1.5rem",
-          padding: "1rem",
-          borderRadius: "0.9rem",
-          // background slightly brighter when moon is fuller
-          background: `rgba(0,0,0,${0.32 + (illumination ?? 0) * 0.12})`,
-          border: "1px solid rgba(255,255,255,0.1)",
-          // glow intensity scales with illumination (full moon => stronger glow)
-          boxShadow: `0 8px ${8 + (illumination ?? 0) * 40}px rgba(255,240,200,${0.06 + (illumination ?? 0) * 0.28})`
+          boxShadow: `0 18px ${18 + (illumination ?? 0) * 32}px rgba(0,0,0,0.5), 0 0 ${
+            14 + (illumination ?? 0) * 40
+          }px rgba(240,210,150,${0.1 + (illumination ?? 0) * 0.4})`
         }}
       >
-        <h2 style={{ margin: 0, fontSize: "1.3rem" }}>
-          {phase.name}
-        </h2>
-        <p style={{ marginTop: "0.3rem", fontSize: "0.95rem", opacity: 0.9 }}>
-          {phase.vibe}
+        <div className="moon-phase-card__header">
+          <div className="moon-phase-card__title">
+            <span className="moon-phase-card__glyph" aria-hidden="true">
+              ☾
+            </span>
+            <div>
+              <p className="moon-phase-card__eyebrow">Current aspect</p>
+              <h3>{phase.name}</h3>
+            </div>
+          </div>
+          <p className="moon-phase-card__vibe">{phase.vibe}</p>
+        </div>
+        <div className="moon-phase-card__list">
+          {chores.map((chore, idx) => (
+            <div key={idx} className="moon-phase-card__item">
+              <span className="moon-phase-card__bullet" aria-hidden="true">
+                ✧
+              </span>
+              <span>{chore}</span>
+            </div>
+          ))}
+        </div>
+        <p className="moon-panel__footnote">
+          Shadows are approximate; the witching hour is exact.
         </p>
       </div>
-
-      <div style={{ marginTop: "1.25rem" }}>
-        <h3 style={{ fontSize: "1rem", marginBottom: "0.4rem" }}>
-          Suggested chores for this phase:
-        </h3>
-        <ul
-          style={{
-            paddingLeft: "1.2rem",
-            margin: 0,
-            display: "grid",
-            gap: "0.35rem",
-            fontSize: "0.95rem"
-          }}
-        >
-          {chores.map((chore, idx) => (
-            <li key={idx} style={{ lineHeight: 1.4 }}>
-              {chore}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <p
-        style={{
-          marginTop: "1rem",
-          fontSize: "0.8rem",
-          opacity: 0.7
-        }}
-      >
-        (Moon phase is approximate, but the vibes are absolutely real.)
-      </p>
-    </div>
+    </section>
   );
 }

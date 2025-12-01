@@ -59,8 +59,8 @@ function App() {
               </button>
             ))}
           </div>
-          <SalaryInput setHourlyWage={setHourlyWage} />
-          <EarningCounter hourlyWage={hourlyWage} />
+          {/* <SalaryInput setHourlyWage={setHourlyWage} />
+          <EarningCounter hourlyWage={hourlyWage} /> */}
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
           <img src={dollarBill} alt='Dollar Bill' className='dollar-bill'/>
