@@ -222,7 +222,9 @@ h1::after {
   position: relative;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
   min-height: 76vh;
   gap: 2rem;
   z-index: 1;
@@ -404,6 +406,167 @@ h1::after {
   border-radius: 18px;
   padding: 1.2rem;
   box-shadow: var(--shadow);
+}
+
+/* ===== ATLAS COUNTDOWN + WISH WALL ===== */
+.atlas-panel-wrap {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto 1.5rem;
+}
+.atlas-card {
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 1rem 1rem 1.2rem;
+  box-shadow: var(--shadow);
+  color: #e8edf7;
+}
+.atlas-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.7rem;
+}
+.atlas-card__eyebrow {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(232, 237, 247, 0.65);
+}
+.atlas-card__title {
+  margin: 0.15rem 0 0;
+  font-size: 1.15rem;
+}
+.atlas-card__chip {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.78rem;
+  color: rgba(232, 237, 247, 0.9);
+}
+.atlas-count {
+  margin: 0.6rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+.atlas-count__timer {
+  margin-top: 0.25rem;
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.55rem;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: inline-block;
+}
+.atlas-input label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.88rem;
+  color: rgba(232, 237, 247, 0.9);
+}
+.atlas-input input {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.35rem 0.45rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+.atlas-input__meta {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(232, 237, 247, 0.72);
+}
+.atlas-wish {
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.16);
+}
+.atlas-wish__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.8rem;
+  align-items: center;
+}
+.atlas-wish__eyebrow {
+  margin: 0;
+  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  color: rgba(232, 237, 247, 0.6);
+}
+.atlas-wish__note {
+  font-size: 0.78rem;
+  color: rgba(232, 237, 247, 0.72);
+}
+.atlas-wish__form {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.atlas-wish__form input,
+.atlas-wish__form textarea {
+  width: 100%;
+  padding: 0.55rem 0.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 0.95rem;
+  resize: vertical;
+}
+.atlas-wish__form button {
+  justify-self: start;
+  padding: 0.6rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  color: #0b1220;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(96, 165, 250, 0.25);
+}
+.atlas-wish__form button:hover {
+  filter: brightness(1.05);
+}
+.atlas-wish__log {
+  margin-top: 0.9rem;
+  display: grid;
+  gap: 0.6rem;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+}
+.atlas-wish__item {
+  padding: 0.6rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.atlas-wish__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: rgba(232, 237, 247, 0.82);
+}
+.atlas-wish__from {
+  font-weight: 700;
+}
+.atlas-wish__time {
+  color: rgba(232, 237, 247, 0.68);
+}
+.atlas-wish__body {
+  margin: 0.35rem 0 0;
+  color: #f4f6ff;
+  font-size: 0.95rem;
+  line-height: 1.4;
 }
 
 /* ===== MOON PANEL (witchy arc) ===== */
