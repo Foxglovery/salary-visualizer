@@ -1,16 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-/**
- * AtlasCountdown
- * Props:
- * - targetDate (ISO string) optional. If not provided, a sensible default is used.
- *
- * Notes / assumptions:
- * - The user didn't provide an official closest-approach date for "3I Atlas".
- *   This component uses a configurable target date and defaults to a sample date.
- *   You can change the default by passing `targetDate` prop or by editing the date/time in the UI.
- */
+
 export default function AtlasCountdown({ targetDate }) {
   const DEFAULT_ISO = targetDate ?? '2026-12-01T00:00:00Z';
 
