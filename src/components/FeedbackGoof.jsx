@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LOVE_MESSAGES = [
   "I LOVE this app. It's so easy to use I could do it with oven mitts on.",
@@ -11,6 +11,7 @@ function pickMessage() {
   return LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
 }
 
+// eslint-disable-next-line react/prop-types
 export default function ParodyGuiltAssuager({ onSubmit }) {
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
